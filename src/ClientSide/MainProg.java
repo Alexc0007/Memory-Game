@@ -8,11 +8,17 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.TextArea;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.CardLayout;
+import java.awt.Component;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -79,7 +85,17 @@ public class MainProg
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				player.setHost(JOptionPane.showInputDialog("Please insert"));
+				player.setHost(JOptionPane.showInputDialog("Please insert sever address to connect to"));
+				try
+				{
+					player.setPort(Integer.parseInt(JOptionPane.showInputDialog("please insert the port of the server to connect to")));
+				}catch (NullPointerException exception) 
+				{
+					//null pointer exception could be thrown when no port is inserted and the parseInt method would try to parse a NULL value
+					player.setPort(0); //in such case just set a default value of 0 to the port 
+				}
+				player.connectToServer(); //try to connect to sever
+				
 			}
 		});
 		jpBottomPanel.add(btnConnectToServer, BorderLayout.WEST);
